@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "decode_fun(double, int, int):main.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "decode_fun(float, int, int):main.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "code(char const*, char const*, char const*, int):main.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "iiVect">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

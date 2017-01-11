@@ -312,8 +312,6 @@ void OBR_MATR(int cnt_str, double H[7])//, double mass[30][30])
     {
         H_th = (double)(H_th + H[i]*abs(M_obr[i][0]));
     }
-    if (H_th < 1)
-        H_th = 1;
     cout <<"H_th = " << H_th <<endl;
     
 }

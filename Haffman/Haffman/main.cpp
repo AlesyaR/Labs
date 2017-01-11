@@ -233,8 +233,6 @@ void build_tree(const char *in, int kol_msg, const char *out)
     }
    
     h =(double)h*(-1);
-    if (h < 1)
-        h = 1;
     cout << "H_th = " << h<< endl;
     
     flag = 0;

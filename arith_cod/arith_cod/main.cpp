@@ -16,7 +16,8 @@ using namespace std;
 
 int in_file[8];
 int k_file;
-float fr1[2][10];
+double fr1[2][10];
+int del = 100;
 
 void to2 (int n)
 {
@@ -48,7 +49,64 @@ void to2 (int n)
     }
 }
 
+int kol_t;
 
+void decode_fun(double l1, int l, int max_word)
+{
+    FILE *f_out = fopen("/Users/alesya/Desktop/Study/code/decode.txt", "rb+");
+    fseek(f_out, 0, SEEK_END);
+    
+    int kol = 0, flag = 0, k = 0;
+    double l2 = 0, h2 = 0, h1 = 0;
+    l2 = 0;
+    
+    kol_t++;
+    h2 = 1;
+    h1 = (double)(l1 - l2)/(h2 - l2);
+    while (kol != l)
+    {
+        if(kol_t== 24)
+            int ii =0;
+    
+        if (((0 <= h1) && ( h1 < fr1[1][0])) || (abs(fr1[1][0] - h1) < 0.0000000001))
+        {
+            if (abs(fr1[1][0] - h1) < 0.00000000001)
+            {
+                h1 = (double)(h2 - l2);
+                h2 = (double)(l2 + h1*fr1[1][1]);
+                l2 = (double)(l2 + h1*fr1[1][0]);
+                flag = fr1[0][1];
+ 
+            }
+            else
+            {
+                h1 = (double)(h2 - l2);
+                h2 = (double)(l2 + h1*fr1[1][0]);
+                l2 = (double)(l2 + h1*0);
+                flag = fr1[0][0];
+            }
+            fprintf(f_out,"%d ", flag);
+        }
+        else
+            for (int i = 1; i < max_word; i++)
+                if (((fr1[1][i - 1] <= h1) && ( h1 < fr1[1][i])) || (abs(fr1[1][i] - h1) < 0.000000001))
+                {
+                    if (abs(fr1[1][i] - h1) < 0.000000001)
+                        i++;
+                    h1 = (double)(h2 - l2);
+                    h2 = (double)(l2 + h1*fr1[1][i]);
+                    l2 = (double)(l2 + h1*fr1[1][i-1]);
+                    flag = fr1[0][i];
+                    fprintf(f_out,"%d ", flag);
+                    break;
+                    
+                }
+        kol++;
+        h1 = (double)(l1 - l2)/(h2 - l2);
+    }
+    
+    fclose(f_out);
+}
 
 void code(const char *msg_f, const char *code, const char *fr_f, int l)
 {
@@ -56,14 +114,14 @@ void code(const char *msg_f, const char *code, const char *fr_f, int l)
     int count = 0;
     int count_word = 0;
     int msg = 0;
-    float a = 0;
+    double a = 0;
     int kol = 0;
     int max_word = 0;
-    float h1 = 0, h2 = 0, l1 = 0, l2 = 0;
+    double h1 = 0, h2 = 0, l1 = 0, l2 = 0;
     
     FILE *f;
-    //float* fr_r = new float [100000];
-    float fr_r[1000];
+    //double* fr_r = new double [100000];
+    double fr_r[1000];
     
     
     for (int i =0; i < 1000; i++)
@@ -72,8 +130,8 @@ void code(const char *msg_f, const char *code, const char *fr_f, int l)
     cout << "Do you want read freq. from file?[1 - yes, 2 - equiprobably, 'another' - no]  ";
     cin >> flag;
     
-    float h = 0;
-    float aa = 0;
+    double h = 0;
+    double aa = 0;
     
     // получение частоты слов
     
@@ -84,10 +142,10 @@ void code(const char *msg_f, const char *code, const char *fr_f, int l)
         
         while(msg != -1)
         {
-            fr_r[kol] = (float)msg/1000000;
-            aa = (float)log2(fr_r[kol]);
-            aa = (float)aa * fr_r[kol];
-            h += (float)aa;
+            fr_r[kol] = (double)msg/1000000;
+            aa = (double)log2(fr_r[kol]);
+            aa = (double)aa * fr_r[kol];
+            h += (double)aa;
             fscanf(f, "%d ",&msg);
             kol++;
         }
@@ -116,22 +174,22 @@ void code(const char *msg_f, const char *code, const char *fr_f, int l)
         if (flag == 2)
             for (int i = 0; i <= max_word; i++)
             {   if (i > 0)
-                    fr_r[i] = (float)(fr_r[i - 1] + 1/max_word);
+                    fr_r[i] = (double)(fr_r[i - 1] + 1/max_word);
                 else
-                    fr_r[i] = (float)1/max_word;
-                aa = (float)log2(fr_r[i]);
-                aa = (float)aa * fr_r[i];
-                h += (float)aa;
+                    fr_r[i] = (double)1/max_word;
+                aa = (double)log2(fr_r[i]);
+                aa = (double)aa * fr_r[i];
+                h += (double)aa;
                 msg = fr_r[i]*1000000;
                 fprintf(f,"%d ", msg);
             }
         else
             for (int i = 0; i < max_word; i++)
             {
-                fr_r[i] = (float)fr_r[i]/kol;
-                aa = (float)log2(fr_r[i]);
-                aa = (float)aa * fr_r[i];
-                h += (float)aa;
+                fr_r[i] = (double)fr_r[i]/kol;
+                aa = (double)log2(fr_r[i]);
+                aa = (double)aa * fr_r[i];
+                h += (double)aa;
                 msg = fr_r[i]*1000000;
                 fprintf(f,"%d ", msg);
             }
@@ -140,13 +198,13 @@ void code(const char *msg_f, const char *code, const char *fr_f, int l)
         fclose (f);
     }
     
-    h = (float)h * (-1);
+    h = (double)h * (-1);
     cout << "H_th = " << h << endl;
     
     
-    /*float** fr = new float* [2];
-    fr[0] = new float [max_word];
-    fr[1] = new float [max_word];*/
+    /*double** fr = new double* [2];
+    fr[0] = new double [max_word];
+    fr[1] = new double [max_word];*/
     
     
     for (int i = 0; i < max_word; i++)
@@ -160,32 +218,38 @@ void code(const char *msg_f, const char *code, const char *fr_f, int l)
         for(int j = 0; j < max_word; j++)
             if (h1 < fr_r[j])
             {
-                h1 = (float)fr_r[j];
+                h1 = (double)fr_r[j];
                 flag = j;
             }
-        fr1[1][i] += (float)h1;
+        fr1[1][i] += (double)h1;
         fr_r[flag] = 0;
         fr1[0][i] = flag;
     }
     
    // free(fr_r);
+    std::vector<int> iiVect;
     
     f = fopen(msg_f, "rb");
     FILE *out = fopen (code, "wb");
     fscanf(f, "%d ",&msg);
+    iiVect.push_back(msg);
     kol = 0;
     fr1[max_word - 1][0] = 1;
-    
+    double xx = 0;
+
     while(msg != -1)
     {
         count_word++;
+        if(kol_t== 23)
+            int ii =0;
+        
         if (kol == 0)
         {
             for (int i = 0; i < max_word; i++)
                 if (msg == fr1[0][i])
                 {
-                    h1 = (float)fr1[1][i];
-                    l1 = (float)fr1[1][i - 1];
+                    h1 = (double)fr1[1][i];
+                    l1 = (double)fr1[1][i - 1];
                     if (i == 0)
                         l1 = 0;
                     break;
@@ -196,40 +260,47 @@ void code(const char *msg_f, const char *code, const char *fr_f, int l)
             for (int i = 0; i < max_word; i++)
                 if (msg == fr1[0][i])
                 {
-                    h2 = (float)fr1[1][i];
-                    l2 = (float)fr1[1][i - 1];
+                    h2 = (double)fr1[1][i];
+                    l2 = (double)fr1[1][i - 1];
                     if (i == 0)
                         l2 = 0;
                     i = max_word;
                 }
-            h1 =(float) (l1 + (h1 - l1)*h2);
-            l1 =(float) (l1 + (h1 - l1)*l2);
+            xx = (double) (h1 - l1);
+            h1 =(double) (l1 + xx*h2);
+            l1 =(double) (l1 + xx*l2);
         }
         
         kol++;
         
         if (kol == l)
         {
-            flag = (float)h1*100;
+            flag = (double)l1*del;
             count ++;
             fprintf(out,"%d ", flag);
+            decode_fun(l1, l, max_word);
             to2(flag);
             kol = 0;
         }
         fscanf(f, "%d ",&msg);
+        
+        if(iiVect.size() < 100)
+        {iiVect.push_back(msg);}
     }
     
     cout << count_word;
     
     if (kol > 0)
     {
-        flag = h1*100;
+        flag = l1*del;
         count ++;
         fprintf(out,"%d ", flag);
+        to2(flag);
+        decode_fun(l1, l, max_word);
     }
     
     h = 0;
-    h = (float)count/count_word;
+    h = (double)count/count_word;
    // cout << "H_pr = " << h << endl;
     
     flag = -1;
@@ -248,9 +319,9 @@ void decode(const char *decode_f,const char *code_f, const char *fr_f, int l)
     int kol = 0;
     int max_word = 0;
     
-   // float* fr_r = new float [100000];
+   // double* fr_r = new double [100000];
     
-    float fr_r[1000];
+    double fr_r[1000];
     for (int i =0; i < 1000; i++)
         fr_r[i] = 0;
     
@@ -266,7 +337,7 @@ void decode(const char *decode_f,const char *code_f, const char *fr_f, int l)
         
         while(msg != -1)
         {
-            fr_r[kol] = (float)msg/1000000;
+            fr_r[kol] = (double)msg/1000000;
             fscanf(f, "%d ",&msg);
             kol++;
         }
@@ -283,25 +354,25 @@ void decode(const char *decode_f,const char *code_f, const char *fr_f, int l)
         if (flag == 2)
             for (int i = 0; i <= max_word; i++)
                 if (i > 0)
-                    fr_r[i] = (float)(fr_r[i - 1] + 1/max_word);
+                    fr_r[i] = (double)(fr_r[i - 1] + 1/max_word);
                 else
-                    fr_r[i] = (float)1/max_word;
+                    fr_r[i] = (double)1/max_word;
         else
             while(msg != -1)
             {
-                fr_r[kol] = (float)msg/1000000;
+                fr_r[kol] = (double)msg/1000000;
                 fscanf(f, "%d ",&msg);
                 kol++;
             }
         fclose(f);
     }
     
-   /* float** fr = new float* [2];
-    fr[0] = new float [max_word];
-    fr[1] = new float [max_word];*/
+   /* double** fr = new double* [2];
+    fr[0] = new double [max_word];
+    fr[1] = new double [max_word];*/
     
     
-    float h1 = 0, l1 = 0, h2 = 0, l2 = 0;
+    double h1 = 0, l1 = 0, h2 = 0, l2 = 0;
     
     
     for (int i = 0; i < max_word; i++)
@@ -315,44 +386,54 @@ void decode(const char *decode_f,const char *code_f, const char *fr_f, int l)
         for(int j = 0; j < max_word; j++)
             if (h1 < fr_r[j])
             {
-                h1 = (float)fr_r[j];
+                h1 = (double)fr_r[j];
                 flag = j;
             }
-        fr1[1][i] += (float)h1;
+        fr1[1][i] += (double)h1;
         fr_r[flag] = 0;
         fr1[0][i] = flag;
     }
     
     fr1[max_word - 1][0] = 1;
    // free(fr_r);
-    
-    fscanf(f_in, "%d ",&msg);
     kol = 0;
+    fscanf(f_in, "%d ",&msg);
+    l1 = (double)msg/del;
     
     while(msg != -1)
     {
+        
         if (kol == l)
         {
-            kol = -1;
+            kol = 0;
             fscanf(f_in, "%d ",&msg);
+            l1 = (double)msg/del;
         }
-        else
+        l2 = 0;
+        h2 = 1;
+        h1 = (double)(l1 - l2)/(h2 - l2);
+        while (kol != l)
         {
-            if (kol == 0)
-                l1 = (float)msg/100;
-            
-            for (int i = 0; i < max_word; i++)
-                if (l1 < fr1[1][i])
-                {
-                    flag = fr1[0][i];
-                    fprintf(f_out,"%d ", flag);
-                    h2 = fr1[1][i];
-                    l2 = fr1[1][i - 1];
-                    i = max_word;
-                }
-            l1 = (float)(l1 - l2)/(h2 - l2);
+            if ((0 <= h1) && ( h1 < fr1[1][0]))
+            {
+                h2 = l2 + (h2 - l2)*fr1[1][0];
+                l2 = l2 + (h2 - l2)*0;
+                flag = fr1[0][0];
+                fprintf(f_out,"%d ", flag);
+            }
+            else
+                for (int i = 1; i < max_word; i++)
+                    if ((fr1[1][i - 1] <= h1) && ( h1 < fr1[1][i]))
+                    {
+                        h1 = (double)(h2 - l2);
+                        h2 = (double)(l2 + h1*fr1[1][i]);
+                        l2 = (double)(l2 + h1*fr1[1][i-1]);
+                        flag = fr1[0][i];
+                        //fprintf(f_out,"%d ", flag);
+                    }
+            kol++;
+            h1 = (double)(l1 - l2)/(h2 - l2);
         }
-        kol++;
     }
 
     fclose(f_in);
@@ -375,11 +456,11 @@ void srav()
     {
         if (msg != dec)
         {
-            //cout << "0";
+           // cout << "0";
             count ++;
         }
         else
-           //  cout << "1";
+          //   cout << "1";
         fscanf(f_in, "%d ", &msg);
         fscanf(f_out, "%d ", &dec);
         
@@ -399,14 +480,17 @@ int main(int argc, const char * argv[])
     
     FILE *f = fopen("/Users/alesya/Desktop/Study/code/code_1.txt", "w");
     fclose(f);
+    f = fopen("/Users/alesya/Desktop/Study/code/decode.txt", "w");
+    fclose(f);
     
-    int l = 2;
+    int l = 4;
     k_file = 0;
+    kol_t = 0;
 
     
     code(msg, code_f,fr, l);
     
-    decode (decode_f, code_f, fr, l);
+    //decode (decode_f, code_f, fr, l);
     srav();
     
     return 0;
