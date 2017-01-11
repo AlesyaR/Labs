@@ -19,7 +19,7 @@
 using namespace std;
 
 int cur;
-long int cur1; 
+long int cur1;
 long int cur2;
 int sym;
 int max_n;
@@ -118,7 +118,7 @@ int codeGolomb(int m)
     FILE *f = fopen(code,"wb");
     fprintf(f,"%d\n", m);
     fclose(f);
- 
+    
     FILE *f_in = fopen (msg, "rb");
     fscanf(f_in, "%d ", &n);
     while(n != -1)
@@ -132,7 +132,7 @@ int codeGolomb(int m)
         
         if (n > max_n)
             max_n = n;
-    
+        
         if (test_m(m) == 0)
             if (number[1] < c)
                 number[2] = b - 1;
@@ -141,9 +141,9 @@ int codeGolomb(int m)
                 number[1] = number[1] + c;
                 number[2] = b;
             }
-        else
-            number[2] = log2(m);
-    
+            else
+                number[2] = log2(m);
+        
         putbits(number);
         fscanf(f_in, "%d ", &n);
     }
@@ -160,7 +160,7 @@ int decodeGolomb(int m, int bits[20], int i, int b)
 {
     int j = 0;
     int result[3] = {0,0,0};
-   
+    
     while (bits[j] != 1)    //получение числа целой части
     {
         result[0] ++;
@@ -219,7 +219,7 @@ int getbits(int m, int bit)
             if (j == (b - 2))
                 cur1 = ftell(f);    // если было потрачено b-1 бит
         }
-    
+        
         cur2 = ftell(f);            // если потрачено b бит
     }
     else
@@ -232,7 +232,7 @@ int getbits(int m, int bit)
         cur2 = ftell(f);
         cur1 = cur2;
     }
-   int res =  decodeGolomb(m, bits, i, b);
+    int res =  decodeGolomb(m, bits, i, b);
     fclose(f);
     return res;
 }
@@ -252,11 +252,12 @@ void test_geom_rasp(double p)
         if (k < 30)
             kol[k]++;
     }
-   
+    
     for (int i = 0; i < max; i++)
     {
         kol[i] = (double)(kol[i]/exp);
-        h += (double)(kol[i]*log2(kol[i]));
+        if (kol[i] != 0)
+            h += (double)(kol[i]*log2(kol[i]));
     }
     
     h = -h;
@@ -278,7 +279,6 @@ void compress(int kol)  //энтропия
     i = kol*i;
     b = (double)sym/i;
     b = (double)(1 - b);
-    cout << "\n\nto2 = " << i << "\nGolomb = " << sym << "\nCompress = " << 100*b << "%\n";
     b = (double)sym/kol;
     cout<< "H_pr = " << b << endl;
     
@@ -288,17 +288,31 @@ int main(int argc, const char * argv[])
 {
     srand(time(0));
     
-    int m = 3;
+    int m = 6;
+    int kk = 0;
     double m_op = 0;
     sym = 0;
     max_n = 0;
     double p = 0.2;
     k_file = 0;
     
-    m_op = (double)log2(1/(1-p));
-    m_op = m_op/log2(p);
+    FILE *f = fopen("/Users/alesya/Desktop/Study/code/code_1.txt", "wb");
+    fclose(f);
     
-   // int kol = 10;
+    m_op = (double)(-1)*log2(2 - p);
+    m_op = (double)m_op/log2(1 - p);
+    if (m_op < 1)
+        m_op = 1;
+    
+    cout << "Input p = ";
+    cin >> p;
+    
+    cout << "Do you use m-optimum? [1 - yes, another - no]:";
+    cin >> kk;
+    if (kk == 1)
+        m = (int)m_op+1;
+    
+    // int kol = 10;
     char a;
     cur = 0;
     
@@ -306,13 +320,13 @@ int main(int argc, const char * argv[])
     
     // кодирование
     int kol = codeGolomb(m);
-
+    
     compress(kol);
     cout << "\nout:"<< endl;
     
     //декодиование
     
-     FILE *f = fopen(code,"rb");
+    f = fopen(code,"rb");
     m = 0;
     cur = 0;
     int bit = 0;
@@ -321,12 +335,13 @@ int main(int argc, const char * argv[])
     fscanf(f, "%d ",&bit);
     cur1 = ftell(f);
     fclose(f);
+//    delete f;
     
     FILE *out = fopen(decode, "wb");
     int res_msg = 0;
     
-  
-   while (bit != EOF)
+    
+    while (bit != EOF)
     {
         res_msg = getbits(m, bit);
         fprintf(out,"%d ", res_msg);
@@ -337,8 +352,8 @@ int main(int argc, const char * argv[])
         cur1 = ftell(f);
         fclose(f);
     }
-   
-
+    
+    
     
     return 0;
 }

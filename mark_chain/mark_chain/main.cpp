@@ -14,6 +14,7 @@ using namespace std;
 void message(const char *s, int kol_msg, const char *matrix)
 {
     int n = 6;
+    int kol_aa = 0;
     int pos = -1;
     double sum = 0;
     FILE *f = fopen(s, "wb");
@@ -34,6 +35,10 @@ void message(const char *s, int kol_msg, const char *matrix)
     for (int i = 0; i < n; i++)
         for (int j = 0; j < n; j++)
             P[i][j] = 0;
+    
+    double* p_stat = new double[n];
+    for (int i = 0; i < n; i++)
+        p_stat[i] = 0;
 
     
     cout << "Do you want to input P{}? [1 - yes, 'another' - no]:  ";
@@ -103,41 +108,21 @@ void message(const char *s, int kol_msg, const char *matrix)
         r = (double)rand()/RAND_MAX;
         ch = 0;
         
-        /*  while (ch == 0)
-        {
-            sum = 0;
-            min = 100;
-            for (int i = 0; i < n; i++)
-                if ((P[pos][i] < min) && (P[pos][i] != 0))
-                {
-                    min = (double)P[pos][i];
-                    fl = i;
-                }
-            sum += (double)min;
-            if (r < sum)
-            {
-                pos = fl;
-                ch = 1;
-                for (int i = 0; i < n; i++)
-                    p_start[i][1] = 0;
-                
-            }
-            else
-                p_start[fl][1] = 1;
-            
-        }*/
-        
         for(int i = 0; i < n; i++)
             if ((i == 0) && (P_sum[pos][i] > r))
             {
                 fprintf(f,"%d ", i);
                 pos = i;
+                p_stat[pos]++;
+                break;
             }
             else
                 if ((P_sum[pos][i] <= r) && (P_sum[pos][i + 1] > r))
                 {
                     pos = i + 1;
+                    p_stat[pos]++;
                     fprintf(f,"%d ", pos);
+                    break;
                 }
         
         
@@ -159,6 +144,17 @@ void message(const char *s, int kol_msg, const char *matrix)
     
     fclose(f);
     fclose(f_m);
+    
+    f = fopen ("/Users/alesya/Desktop/Study/code/fr.txt", "wb");
+    for (int i = 0; i < n; i++)
+    {
+        p_stat[i] = (double)p_stat[i]/kol_msg;
+        pos = (double)p_stat[i]*1000000;
+        fprintf(f,"%d ", pos);
+    }
+    pos = -1;
+    fprintf(f,"%d ", pos);
+    fclose(f);
 }
 
 
@@ -168,7 +164,7 @@ int main(int argc, const char * argv[])
     srand(time(NULL));
     const char *in = "/Users/alesya/Desktop/Study/code/msg.txt";
     const char *in_m = "/Users/alesya/Desktop/Study/code/matrix.txt";
-    int kol = 10000;
+    int kol = 100000;
     message(in, kol, in_m);
     
     return 0;

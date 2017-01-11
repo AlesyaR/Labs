@@ -10,11 +10,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "mark_chain/main.cpp"
-            timestampString = "504130750.462502"
+            timestampString = "505789764.326568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "main(int argc, const char * argv[])"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "mark_chain/main.cpp"
+            timestampString = "505789764.326568"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
+            landmarkName = "main(int argc, const char * argv[])"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "mark_chain/main.cpp"
+            timestampString = "505789764.326568"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "message(const char *s, int kol_msg, const char *matrix)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "mark_chain/main.cpp"
-            timestampString = "504130750.462502"
+            timestampString = "505789764.326568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "message(const char *s, int kol_msg, const char *matrix)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +74,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "mark_chain/main.cpp"
-            timestampString = "504130750.462502"
+            timestampString = "505789764.326568"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "130"
             endingLineNumber = "130"
+            landmarkName = "message(const char *s, int kol_msg, const char *matrix)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "mark_chain/main.cpp"
+            timestampString = "505789764.326568"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "message(const char *s, int kol_msg, const char *matrix)"
             landmarkType = "7">
          </BreakpointContent>
