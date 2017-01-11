@@ -375,17 +375,16 @@ void srav()
     {
         if (msg != dec)
         {
-            cout << "0";
+            //cout << "0";
             count ++;
         }
         else
-             cout << "1";
+           //  cout << "1";
         fscanf(f_in, "%d ", &msg);
         fscanf(f_out, "%d ", &dec);
         
     }
     cout << "\nfinish\n";
-    cout << "\count_err = " << count << endl;
     
 }
 
